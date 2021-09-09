@@ -1,0 +1,3 @@
+* capture-org-template
+
+capture-org-template provides a mechanism to read org capture templates from a org file. See [[example.org][example.org]]

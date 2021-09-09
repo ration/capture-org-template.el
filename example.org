@@ -1,0 +1,44 @@
+:PROPERTIES:
+:CATEGORY: Org Capture Templates
+:END:
+* Generic TODO
+  :PROPERTIES:
+  :KEY:      t
+  :TYPE:     entry
+  :TARGET:   file+headline "~/Org/todo.org" "Inbox"   
+  :END:
+** TODO %?
+* Org Capture Text
+  :PROPERTIES:
+  :KEY:        l
+  :TYPE:       entry
+  :TARGET:     file+headline "~/Org/todo.org" "Protocol"
+  :PROPERTIES: :empty-lines 1
+  :END:
+*** TODO %?
+    %u
+    #+begin_example
+    %i
+    #+end_example
+    Source: %:link
+* Org Capture
+  :PROPERTIES:
+  :KEY:        L
+  :TYPE:       entry
+  :TARGET:     file+headline "~/Org/todo.org" "Protocol"
+  :PROPERTIES: :empty-lines 1
+  :END:
+** TODO %?
+   %u
+   Source: %:link
+* Meeting
+  :PROPERTIES:
+  :KEY:      o
+  :TARGET:   file+olp "~/Org/meetings.org" "Meetings"
+  :END:
+**** %T %?
+     SCHEDULED: %T
+     
+
+
+
