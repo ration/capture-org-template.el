@@ -13,7 +13,7 @@
   :KEY:        l
   :TYPE:       entry
   :TARGET:     file+headline "~/Org/todo.org" "Protocol"
-  :PROPERTIES: :empty-lines 1
+  :OPTIONS: :empty-lines 1
   :END:
 *** TODO %?
     %u
@@ -26,7 +26,7 @@
   :KEY:        L
   :TYPE:       entry
   :TARGET:     file+headline "~/Org/todo.org" "Protocol"
-  :PROPERTIES: :empty-lines 1
+  :OPTIONS: :empty-lines 1
   :END:
 ** TODO %?
    %u

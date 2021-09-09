@@ -45,16 +45,17 @@
              (type (or (org-entry-get nil "TYPE") "entry"))
              (key (org-entry-get nil "KEY"))
              (target (org-entry-get nil "TARGET"))
-             (options (or (org-entry-get nil "OPTIONS") '())))
+             (options (or (org-entry-get nil "OPTIONS") "")))
          (unless key (error "All root level headlines must have :KEY: property. '%s' did not" heading))
          (unless target (error "All root level headlines must have :TARGET: property. '%s' did not" heading))
          (outline-next-heading)
          (org-copy-subtree 1)
-         (list key
-               heading
-               (intern type)
-               (capture-org-template--read-expression target)
-               (capture-org-template--drop-one-level (substring-no-properties (car kill-ring)))))
+         (append (list key
+                       heading
+                       (intern type)
+                       (capture-org-template--read-expression target)
+                       (capture-org-template--drop-one-level (substring-no-properties (car kill-ring))))
+                 (capture-org-template--read-expression options)))
        ) "LEVEL=1" 'nil)))
 
 ;; (setq org-capture-templates (capture-org-template-read-from-file "example.org"))
