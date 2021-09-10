@@ -34,7 +34,7 @@
 (defun capture-org-template--read-expression (string)
   (car (read-from-string (format "(%s)" string))))
 
-(defun capture-org-template-read-from-file (file)
+(defun capture-org-template (file)
   (with-temp-buffer
     (insert-file-contents file)
     (org-mode)
