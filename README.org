@@ -30,3 +30,14 @@ This produces entries:
 ("P" "TODO Email" entry (file+olp "~/Org/todo.org" "Inbox") "* TODO %:fromname: %a %?
    DEADLINE: %(org-insert-time-stamp (org-read-date nil t \"+2d\")))
 #+end_src
+
+* Installation
+
+With [[https://github.com/raxod502/straight.el][straight.el]] and the template in "~/Org/capture.org":
+
+#+begin_src emacs-lisp
+(use-package capture-org-template
+  :straight (:host github :repo "ration/capture-org-template.el")
+  :config 
+  (setq org-capture-templates (capture-org-template "~/Org/capture.org")))
+#+end_src
