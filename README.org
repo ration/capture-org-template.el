@@ -15,7 +15,7 @@ The template content is anything in the subtree with one level moved up.
 ** TODO %?
 * TODO Email                               
   :PROPERTIES:
-  :DESCRIPTION: TODO mu4 emails with a deadline in two days
+  :DESCRIPTION: TODO mu4e emails with a deadline in two days
   :KEY:      P
   :TARGET:   file+olp "~/Org/todo.org" "Inbox"
   :END:
