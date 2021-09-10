@@ -1,3 +1,23 @@
 * capture-org-template
 
-capture-org-template provides a mechanism to read org capture templates from a org file. See [[example.org][example.org]]
+capture-org-template provides a mechanism to read org capture templates from a org file. See [[https://raw.githubusercontent.com/ration/capture-org-template.el/master/example.org][example.org]] for more examples.
+
+The template content is anything in the subtree with one level moved up. 
+
+#+begin_example
+* TODO Email                               
+  :PROPERTIES:
+  :DESCRIPTION: TODO mu4 emails with a deadline in two days
+  :KEY:      P
+  :TARGET:   file+olp "~/Org/todo.org" "Inbox"
+  :END:
+** TODO %:fromname: %a %?
+   DEADLINE: %(org-insert-time-stamp (org-read-date nil t "+2d"))
+#+end_example
+
+This produces a entry:
+#+begin_example
+org-capture-templates
+("P" "TODO Email" entry (file+olp "~/Org/todo.org" "Inbox") "* TODO %:fromname: %a %?
+   DEADLINE: %(org-insert-time-stamp (org-read-date nil t \"+2d\"))
+#+end_example

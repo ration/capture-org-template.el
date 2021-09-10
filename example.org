@@ -15,7 +15,7 @@
   :TARGET:     file+headline "~/Org/todo.org" "Protocol"
   :OPTIONS: :empty-lines 1
   :END:
-*** TODO %?
+*** TODO %?x
     %u
     #+begin_example
     %i
@@ -38,7 +38,16 @@
   :END:
 **** %T %?
      SCHEDULED: %T
+* TODO Email                               
+  :PROPERTIES:
+  :DESCRIPTION: TODO mu4 emails with a deadline in two days
+  :KEY:      P
+  :TARGET:   file+olp "~/Org/todo.org" "Inbox"
+  :END:
+** TODO %:fromname: %a %?
+   DEADLINE: %(org-insert-time-stamp (org-read-date nil t "+2d"))
      
+
 
 
 
