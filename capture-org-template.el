@@ -7,7 +7,6 @@
 ;; Version:    0.0.1
 ;; Keywords:   lisp, emacs, org-mode
 ;; Homepage:   https://github.com/ration/capture-org-template.el
-;; Package-Requires: ((org-mode "9.4"))
 
 ;; This program is free software; you can redistribute it and/or
 ;; modify it under the terms of the GNU General Public License as
@@ -60,4 +59,4 @@
 
 ;; (setq org-capture-templates (capture-org-template-read-from-file "example.org"))
 
-(provide 'capture-org-template-read-from-file)
+(provide 'capture-org-template)
