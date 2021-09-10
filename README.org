@@ -23,9 +23,10 @@ The template content is anything in the subtree with one level moved up.
    DEADLINE: %(org-insert-time-stamp (org-read-date nil t "+2d"))
 #+end_example
 
-This produces a entry:
-#+begin_example
-org-capture-templates
+This produces a entries:
+#+begin_example emacs-lisp
+'(("t" "Generic TODO" entry (file+headline "~/Org/todo.org" "Inbox") "* TODO %?
+")
 ("P" "TODO Email" entry (file+olp "~/Org/todo.org" "Inbox") "* TODO %:fromname: %a %?
-   DEADLINE: %(org-insert-time-stamp (org-read-date nil t \"+2d\"))
+   DEADLINE: %(org-insert-time-stamp (org-read-date nil t \"+2d\")))
 #+end_example
