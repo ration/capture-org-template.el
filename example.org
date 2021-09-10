@@ -50,6 +50,15 @@
   :END:
 ** TODO %:fromname: %a %?
    DEADLINE: %(org-insert-time-stamp (org-read-date nil t "+2d"))
+* Add new capture template
+  :PROPERTIES:
+  :KEY:      M
+  :TARGET:   file "~/Org/capture.org"
+  :DESCRIPTION: Add new capture template. Prompt for key and description
+  :END:
+** %^{Capture name}
+  %^{KEY}p%^{TARGET|file "~/Org/todo.org"}p%^{DESCRIPTION}p
+*** %?
      
 
 
