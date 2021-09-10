@@ -3,6 +3,7 @@
 :END:
 * Generic TODO
   :PROPERTIES:
+  :DESCRIPTION: Generic TODO item in the Inbox
   :KEY:      t
   :TYPE:     entry
   :TARGET:   file+headline "~/Org/todo.org" "Inbox"   
@@ -10,6 +11,7 @@
 ** TODO %?
 * Org Capture Text
   :PROPERTIES:
+  :DESCRIPTION: Captured text from browser
   :KEY:        l
   :TYPE:       entry
   :TARGET:     file+headline "~/Org/todo.org" "Protocol"
@@ -27,6 +29,7 @@
   :TYPE:       entry
   :TARGET:     file+headline "~/Org/todo.org" "Protocol"
   :OPTIONS: :empty-lines 1
+  :DESCRIPTION: Captured link from browser
   :END:
 ** TODO %?
    %u
@@ -35,6 +38,7 @@
   :PROPERTIES:
   :KEY:      o
   :TARGET:   file+olp "~/Org/meetings.org" "Meetings"
+  :DESCRIPTION: Generic meeting notes
   :END:
 **** %T %?
      SCHEDULED: %T
