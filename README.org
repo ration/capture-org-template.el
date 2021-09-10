@@ -5,6 +5,14 @@ capture-org-template provides a mechanism to read org capture templates from a o
 The template content is anything in the subtree with one level moved up. 
 
 #+begin_example
+* Generic TODO
+  :PROPERTIES:
+  :DESCRIPTION: Generic TODO item in the Inbox
+  :KEY:      t
+  :TYPE:     entry
+  :TARGET:   file+headline "~/Org/todo.org" "Inbox"   
+  :END:
+** TODO %?
 * TODO Email                               
   :PROPERTIES:
   :DESCRIPTION: TODO mu4 emails with a deadline in two days
