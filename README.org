@@ -21,6 +21,15 @@ The template content is anything in the subtree with one level moved up.
   :END:
 ** TODO %:fromname: %a %?
    DEADLINE: %(org-insert-time-stamp (org-read-date nil t "+2d"))
+* Add new capture template
+  :PROPERTIES:
+  :KEY:      M
+  :TARGET:   file "~/Org/capture.org"
+  :DESCRIPTION: Add new capture template. Prompt for key and description
+  :END:
+** %^{Capture name}
+  %^{KEY}p%^{TARGET|file "~/Org/todo.org"}p%^{DESCRIPTION}p
+*** %?
 #+end_example
 
 This produces entries:
@@ -28,7 +37,11 @@ This produces entries:
 '(("t" "Generic TODO" entry (file+headline "~/Org/todo.org" "Inbox") "* TODO %?
 ")
 ("P" "TODO Email" entry (file+olp "~/Org/todo.org" "Inbox") "* TODO %:fromname: %a %?
-   DEADLINE: %(org-insert-time-stamp (org-read-date nil t \"+2d\")))
+   DEADLINE: %(org-insert-time-stamp (org-read-date nil t \"+2d\"))")
+("M" "Add new capture template" entry (file "~/Org/capture.org") "* %^{Capture name}
+  %^{KEY}p%^{TARGET|file \"~/Org/todo.org\"}p%^{DESCRIPTION}p
+** %?
+"))
 #+end_src
 
 * Installation
