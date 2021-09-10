@@ -23,7 +23,7 @@ The template content is anything in the subtree with one level moved up.
    DEADLINE: %(org-insert-time-stamp (org-read-date nil t "+2d"))
 #+end_example
 
-This produces a entries:
+This produces entries:
 #+begin_src emacs-lisp
 '(("t" "Generic TODO" entry (file+headline "~/Org/todo.org" "Inbox") "* TODO %?
 ")
