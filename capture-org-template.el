@@ -29,12 +29,19 @@
 ;;; Code:
 
 (defun capture-org-template--drop-one-level (template)
+  "Drop org element in string TEMPLATE on level"
   (replace-regexp-in-string "^*" "" template))
 
+(defun capture-org-template--up-one-level (template)
+  "Up org element in string TEMPLATE on level"
+  (replace-regexp-in-string "^ " "  " (replace-regexp-in-string "^*" "**" template)))
+
 (defun capture-org-template--read-expression (string)
+  "Convert string in STRING to elisp"
   (car (read-from-string (format "(%s)" string))))
 
 (defun capture-org-template (file)
+  "Read capture org-capture-templates from FILE"
   (with-temp-buffer
     (insert-file-contents file)
     (org-mode)
@@ -57,6 +64,38 @@
                  (capture-org-template--read-expression options)))
        ) "LEVEL=1" 'nil)))
 
-;; (setq org-capture-templates (capture-org-template-read-from-file "example.org"))
+
+(defun capture-org-export--string ()
+  "Export current org-capture-templates as org string"
+  (mapconcat 'identity 
+  (seq-map (lambda (template)
+             (format
+              "* %s\n\
+ :PROPERTIES:\n\
+ :DESCRIPTION: %s\n\
+ :TYPE: %s\n\
+ :KEY:      %s\n\
+ :TARGET:   %s\n%s\
+ :END:\n\
+%s\n"
+              (nth 1 template)
+              (nth 1 template)
+              (nth 2 template)
+              (nth 0 template)
+              (mapconcat (lambda (x) (format "%S" x)) (nth 3 template) " ")
+              (if (subseq template 5)
+                  (format " :OPTIONS: %s\n" (mapconcat (lambda (x) (format "%s" x)) (subseq template 5) " "))
+                "")
+              (mapconcat 'capture-org-template--up-one-level
+                         (split-string (nth 4 template) "\n") "\n")))
+           org-capture-templates) ""))
+
+(defun capture-org-export-templates-to-org (file)
+  "Export current org-capture-templates to FILE"
+  (with-temp-buffer
+    (insert (capture-org-export--string))
+    (write-file file)))
+
+;;(setq org-capture-templates (capture-org-template-read-from-file "~/tmp/foo.org"))
 
 (provide 'capture-org-template)

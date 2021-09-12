@@ -44,6 +44,8 @@ This produces entries:
 "))
 #+end_src
 
+You can use /capture-org-export-templates-to-org/ to export current templates into an org file.
+
 * Installation
 
 With [[https://github.com/raxod502/straight.el][straight.el]] and the template in "~/Org/capture.org":
