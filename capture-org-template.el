@@ -48,17 +48,19 @@
     (org-map-entries
      (lambda ()
        (let ((heading (substring-no-properties (org-get-heading)))
-             (type (or (org-entry-get nil "TYPE") "entry"))
+             (type (org-entry-get nil "TYPE"))
              (key (org-entry-get nil "KEY"))
              (target (org-entry-get nil "TARGET"))
              (options (or (org-entry-get nil "OPTIONS") "")))
          (unless key (error "All root level headlines must have :KEY: property. '%s' did not" heading))
          (unless target (error "All root level headlines must have :TARGET: property. '%s' did not" heading))
          (outline-next-heading)
+         (if (> (org-outline-level) 1)
          (org-copy-subtree 1)
+         (kill-new ""))
          (append (list key
                        heading
-                       (intern type)
+                       (if type (intern type))
                        (capture-org-template--read-expression target)
                        (capture-org-template--drop-one-level (substring-no-properties (car kill-ring))))
                  (capture-org-template--read-expression options)))
