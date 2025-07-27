@@ -50,6 +50,24 @@
   :END:
 ** TODO %:fromname: %a %?
    DEADLINE: %(org-insert-time-stamp (org-read-date nil t "+2d"))
+* Templates under prefix 'p'
+ :PROPERTIES:
+ :DESCRIPTION: Templates under prefix 'p'
+ :TYPE: prefix
+ :KEY:      p
+ :TARGET:
+ :END:
+* Sub-template under prefix 'p' todo
+ :PROPERTIES:
+ :DESCRIPTION: p-local todo
+ :TYPE: entry
+ :KEY:      pt
+ :TARGET:   file+headline +org-capture-project-todo-file "Inbox"
+ :OPTIONS: :prepend t
+ :END:
+** TODO %?
+%i
+%a
 * Add new capture template
   :PROPERTIES:
   :KEY:      M
@@ -59,8 +77,3 @@
 ** %^{Capture name}
   %^{KEY}p%^{TARGET|file "~/Org/todo.org"}p%^{DESCRIPTION}p
 *** %?
-     
-
-
-
-
