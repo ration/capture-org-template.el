@@ -83,11 +83,17 @@
               (nth 2 template)
               (nth 0 template)
               (mapconcat (lambda (x) (format "%S" x)) (nth 3 template) " ")
-              (if (subseq template 5)
-                  (format " :OPTIONS: %s\n" (mapconcat (lambda (x) (format "%s" x)) (subseq template 5) " "))
+              (if (nth 5 template)
+                  (format " :OPTIONS: %s\n"
+                          (mapconcat
+                           (lambda (x)
+                             (format "%s" x))
+                           (subseq template 5) " "))
                 "")
+              (if (nth 4 template)
               (mapconcat 'capture-org-template--up-one-level
-                         (split-string (nth 4 template) "\n") "\n")))
+                         (split-string (nth 4 template) "\n") "\n")
+              "")))
            org-capture-templates) ""))
 
 (defun capture-org-export-templates-to-org (file)
