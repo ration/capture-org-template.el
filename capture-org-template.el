@@ -48,7 +48,7 @@
     (org-map-entries
      (lambda ()
        (let ((heading (substring-no-properties (org-get-heading)))
-             (type (org-entry-get nil "TYPE"))
+             (type (or (org-entry-get nil "TYPE") "entry"))
              (key (org-entry-get nil "KEY"))
              (target (org-entry-get nil "TARGET"))
              (options (or (org-entry-get nil "OPTIONS") "")))
@@ -59,10 +59,12 @@
          (org-copy-subtree 1)
          (kill-new ""))
          (append (list key
-                       heading
-                       (if type (intern type))
-                       (capture-org-template--read-expression target)
-                       (capture-org-template--drop-one-level (substring-no-properties (car kill-ring))))
+                       heading)
+                 (when (not (string= type "prefix"))
+                   (list
+                    (intern type)
+                    (capture-org-template--read-expression target)
+                    (capture-org-template--drop-one-level (substring-no-properties (car kill-ring)))))
                  (capture-org-template--read-expression options)))
        ) "LEVEL=1" 'nil)))
 
@@ -82,7 +84,7 @@
 %s\n"
               (nth 1 template)
               (nth 1 template)
-              (nth 2 template)
+              (or (nth 2 template) "prefix")
               (nth 0 template)
               (mapconcat (lambda (x) (format "%S" x)) (nth 3 template) " ")
               (if (nth 5 template)
