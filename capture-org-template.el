@@ -55,12 +55,16 @@
          (unless key (error "All root level headlines must have :KEY: property. '%s' did not" heading))
          (unless target (error "All root level headlines must have :TARGET: property. '%s' did not" heading))
          (outline-next-heading)
+         (if (> (org-outline-level) 1)
          (org-copy-subtree 1)
+         (kill-new ""))
          (append (list key
-                       heading
-                       (intern type)
-                       (capture-org-template--read-expression target)
-                       (capture-org-template--drop-one-level (substring-no-properties (car kill-ring))))
+                       heading)
+                 (when (not (string= type "prefix"))
+                   (list
+                    (intern type)
+                    (capture-org-template--read-expression target)
+                    (capture-org-template--drop-one-level (substring-no-properties (car kill-ring)))))
                  (capture-org-template--read-expression options)))
        ) "LEVEL=1" 'nil)))
 
@@ -80,14 +84,20 @@
 %s\n"
               (nth 1 template)
               (nth 1 template)
-              (nth 2 template)
+              (or (nth 2 template) "prefix")
               (nth 0 template)
               (mapconcat (lambda (x) (format "%S" x)) (nth 3 template) " ")
-              (if (subseq template 5)
-                  (format " :OPTIONS: %s\n" (mapconcat (lambda (x) (format "%s" x)) (subseq template 5) " "))
+              (if (nth 5 template)
+                  (format " :OPTIONS: %s\n"
+                          (mapconcat
+                           (lambda (x)
+                             (format "%s" x))
+                           (subseq template 5) " "))
                 "")
+              (if (nth 4 template)
               (mapconcat 'capture-org-template--up-one-level
-                         (split-string (nth 4 template) "\n") "\n")))
+                         (split-string (nth 4 template) "\n") "\n")
+              "")))
            org-capture-templates) ""))
 
 (defun capture-org-export-templates-to-org (file)
