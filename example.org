@@ -50,6 +50,16 @@
   :END:
 ** TODO %:fromname: %a %?
    DEADLINE: %(org-insert-time-stamp (org-read-date nil t "+2d"))
+* Groceries plain list item
+:PROPERTIES:
+:KEY:      s
+:TARGET:   file+olp "~/Org/todo.org" "Groceries"
+:TYPE: checkitem
+:DESCRIPTION: Add grocery item to list
+:OPTIONS: :immediate-finish t
+:END:
+[ ] %^{ITEM}, $%^{COST}
+
 * Templates under prefix 'p'
  :PROPERTIES:
  :DESCRIPTION: Templates under prefix 'p'
