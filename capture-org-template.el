@@ -40,6 +40,14 @@
   "Convert string in STRING to elisp"
   (car (read-from-string (format "(%s)" string))))
 
+(defun capture-org-template--copy-paragraph-next-headline (N)
+  "Reads the plain text paragraph of the current headline text only.
+   For plaintext templates, items, checkitems, etc"
+  (let*
+      ((beg (progn (org-forward-paragraph (or N 2)) (point))) ;; forward 2 skips PROP drawer
+       (end (progn (or (outline-next-heading) (end-of-buffer)) (point))))
+    (kill-ring-save beg end)))
+
 (defun capture-org-template (file)
   "Read capture org-capture-templates from FILE"
   (with-temp-buffer
@@ -54,19 +62,37 @@
              (options (or (org-entry-get nil "OPTIONS") "")))
          (unless key (error "All root level headlines must have :KEY: property. '%s' did not" heading))
          (unless target (error "All root level headlines must have :TARGET: property. '%s' did not" heading))
-         (outline-next-heading)
-         (if (> (org-outline-level) 1)
-         (org-copy-subtree 1)
-         (kill-new ""))
-         (append (list key
-                       heading)
-                 (when (not (string= type "prefix"))
-                   (list
-                    (intern type)
-                    (capture-org-template--read-expression target)
-                    (capture-org-template--drop-one-level (substring-no-properties (car kill-ring)))))
-                 (capture-org-template--read-expression options)))
-       ) "LEVEL=1" 'nil)))
+         ;; Interpret capture types separately
+         (cond
+          ;; Prefix requires key, heading only
+          ((string= type "prefix")
+           (append (list key heading)
+                   (capture-org-template--read-expression options)))
+          ((or
+            (string= type "item")
+            (string= type "checkitem")
+            (string= type "table-line")
+            (string= type "plain"))
+           (progn
+             (capture-org-template--copy-paragraph-next-headline 2) ;; forward 2 paragraphs skips PROP drawer
+             (when (> (org-outline-level) 1) (org-copy-subtree 1)
+               (error "Headline in %s entry!" type)) ;; signal error when entry contains headline
+           (append (list key heading (intern type)
+                   (capture-org-template--read-expression target)
+                   ;; TODO interpret plain text,  extract content
+                   (substring-no-properties (car kill-ring)))
+                   (capture-org-template--read-expression options))))
+          (t
+           (progn ;; Default type=entry or nil, interpret as headline
+               (outline-next-heading)
+               (if (> (org-outline-level) 1)
+                   (org-copy-subtree 1)
+                 (kill-new ""))
+               (append (list key heading (intern type)
+                       (capture-org-template--read-expression target)
+                       (capture-org-template--drop-one-level (substring-no-properties (car kill-ring))))
+                       (capture-org-template--read-expression options)))))))
+     "LEVEL=1" 'nil)))
 
 
 (defun capture-org-export--string ()
