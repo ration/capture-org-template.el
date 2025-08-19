@@ -40,6 +40,16 @@
   "Convert string in STRING to elisp"
   (car (read-from-string (format "(%s)" string))))
 
+(defun capture-org-template--read-body ()
+  "Return body text of current headline (after metadata) up to next headline."
+  (save-excursion
+    (org-back-to-heading t)
+    (org-end-of-meta-data t)                  ;; after drawers/planning/blank lines
+    (let* ((beg (point))
+           (end (save-excursion
+                  (or (outline-next-heading) (point-max)))))
+      (buffer-substring-no-properties beg end))))
+
 (defun capture-org-template (file)
   "Read capture org-capture-templates from FILE"
   (with-temp-buffer
@@ -54,20 +64,34 @@
              (options (or (org-entry-get nil "OPTIONS") "")))
          (unless key (error "All root level headlines must have :KEY: property. '%s' did not" heading))
          (unless target (error "All root level headlines must have :TARGET: property. '%s' did not" heading))
-         (outline-next-heading)
-         (if (> (org-outline-level) 1)
-         (org-copy-subtree 1)
-         (kill-new ""))
-         (append (list key
-                       heading)
-                 (when (not (string= type "prefix"))
-                   (list
-                    (intern type)
-                    (capture-org-template--read-expression target)
-                    (capture-org-template--drop-one-level (substring-no-properties (car kill-ring)))))
-                 (capture-org-template--read-expression options)))
-       ) "LEVEL=1" 'nil)))
+         (cond
+          ;; prefix
+          ((string= type "prefix")
+           (append (list key heading)
+                   (capture-org-template--read-expression options)))
 
+          ;; plain text-y types: item/checkitem/table-line/plain
+          ((member type '("item" "checkitem" "table-line" "plain"))
+           (when (> (org-outline-level) 1)
+             (error "Headline in %s entry!" type))
+           (let ((tpl (capture-org-template--read-body)))   ;; ← USE the returned string
+             (append (list key heading (intern type)
+                           (capture-org-template--read-expression target)
+                           tpl)
+                     (capture-org-template--read-expression options))))
+
+          ;; default: entry (headline content)
+          (t
+           (outline-next-heading)
+           (if (> (org-outline-level) 1)
+               (org-copy-subtree 1)
+             (kill-new ""))
+           (append (list key heading (intern type)
+                         (capture-org-template--read-expression target)
+                         (capture-org-template--drop-one-level
+                          (substring-no-properties (car kill-ring))))
+                   (capture-org-template--read-expression options))))))
+     "LEVEL=1" 'nil)))
 
 (defun capture-org-export--string ()
   "Export current org-capture-templates as org string"
