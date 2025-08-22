@@ -1,6 +1,8 @@
 * capture-org-template
 
-capture-org-template provides a mechanism to read org capture templates from a org file. See [[https://raw.githubusercontent.com/ration/capture-org-template.el/master/example.org][example.org]] for more examples.
+capture-org-template provides a mechanism to read org capture templates from a
+org file with hopefully more easy to understand syntax for template
+configurations. See [[https://raw.githubusercontent.com/ration/capture-org-template.el/master/example.org][example.org]] for more examples.
 
 The template content is anything in the subtree with one level moved up. 
 

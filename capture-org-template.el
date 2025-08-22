@@ -130,6 +130,6 @@
     (insert (capture-org-export--string))
     (write-file file)))
 
-;;(setq org-capture-templates (capture-org-template-read-from-file "~/tmp/foo.org"))
-
 (provide 'capture-org-template)
+
+;;; capture-org-template.el ends here
